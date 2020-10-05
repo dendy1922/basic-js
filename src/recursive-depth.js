@@ -1,20 +1,18 @@
-class DepthCalculator {
+module.exports = class DepthCalculator {
   constructor() {
-    this.calculateDepth = this.calculateDepth.bind(this)
+    this.calculateDepth = this.calculateDepth.bind(this);
   }
   calculateDepth(arr) {
-    let maxDeep = 0;
+    let deep = 1;
 
-    if (Array.isArray(arr)) // object or array 
-      for (let item in arr) {
-        let deep = this.calculateDepth(arr[item]);
-        if (deep > maxDeep)
-          maxDeep = deep;
-      }
-    return maxDeep + 1;
+    arr = arr.filter((item) => Array.isArray(item));
+    if (arr.length > 0) {
+      arr = arr.flat();
+      deep += this.calculateDepth(arr);
+    }
+    return deep;
   }
 }
 
-const depthCalc = new DepthCalculator();
-const { calculateDepth } = depthCalc;
-console.log(calculateDepth([[]]))
+
+
