@@ -1,26 +1,43 @@
-const CustomError = require("../extensions/custom-error");
-
 const chainMaker = {
+  arr: [],
+  separator: "~~",
+  result: "",
+
   getLength() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    return this.arr.length;
   },
+
   addLink(value) {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    this.arr.push(`( ${value} )`)
+    return this;
   },
+
   removeLink(position) {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    if ((typeof position !== "number") || (position < 0 && position > this.arr.length) || (position !== parseInt(position, 10))) {
+      this.arr = []
+      this.result = ""
+      throw new Error();
+    }
+    this.arr.splice(position - 1, 1);
+    return this;
   },
+
   reverseChain() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    this.arr = this.arr.reverse()
+    return this;
   },
+
   finishChain() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    try {
+      this.result = this.arr.join(this.separator);
+      return this.result;
+    }
+    finally {
+      this.arr = []
+      this.result = ""
+    }
   }
 };
+// console.log(chainMaker.reverseChain().reverseChain().addLink(NaN).addLink({ 0: 'first', 1: 'second', 'length': 2 }).addLink({ 0: 'first', 1: 'second', 'length': 2 }).addLink({ 0: 'first', 1: 'second', 'length': 2 }).reverseChain().reverseChain().addLink({ 0: 'first', 1: 'second', 'length': 2 }).addLink(true).finishChain())
 
 module.exports = chainMaker;
